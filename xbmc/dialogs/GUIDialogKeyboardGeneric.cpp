@@ -121,26 +121,29 @@ void CGUIDialogKeyboardGeneric::OnWindowLoaded()
    CGUILabelControl* pEdit = ((CGUILabelControl*)GetControl(CTL_LABEL_EDIT));
    if (pEdit)
    {
-     pEdit->ShowCursor();
+     CGUIControlGroup *ParentControl = (CGUIControlGroup *)pEdit->GetParentControl();
+     CLabelInfo labelInfo = pEdit->GetLabelInfo();
      float px = pEdit->GetXPosition();
      float py = pEdit->GetYPosition();
      float pw = pEdit->GetWidth();
      float ph = pEdit->GetHeight();
-     CLabelInfo labelInfo = pEdit->GetLabelInfo();
+
      m_font = labelInfo.font;
      m_listw = pw - 95;
+
      CGUILabelControl* control = ((CGUILabelControl*)GetControl(CTL_LABEL_HZCODE));
      if (!control)
      {
        control = new CGUILabelControl(GetID(), CTL_LABEL_HZCODE, px, py + ph, 90, 30, labelInfo, false, false);
-       AddControl(control);
+       ParentControl->AddControl(control);
      }
+
      control = ((CGUILabelControl*)GetControl(CTL_LABEL_HZLIST));
      if (!control)
      {
        labelInfo.align = XBFONT_CENTER_Y;
        control = new CGUILabelControl(GetID(), CTL_LABEL_HZLIST, px + 95, py + ph, pw - 95, 30, labelInfo, false, false);
-       AddControl(control);
+       ParentControl->AddControl(control);
      }
    }
 }
