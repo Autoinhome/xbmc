@@ -571,16 +571,16 @@ float CGUIDialogKeyboardGeneric::getStringWidth(const CStdStringW & utf16)
 void CGUIDialogKeyboardGeneric::ChangeWordList(int direct)
 {
   CStdStringW hzlist = "";
+  float width = 0;
+  float spacewidth = m_font->GetCharWidth(L' ');
+  float numwidth = m_font->GetCharWidth(L'1') + m_font->GetCharWidth(L'.');;
+  int i;
 
   if (direct >= 0)
   {
     m_pos += m_num;
     if (!direct || m_pos > m_words.size() - 1)
       m_pos = 0;
-    float width = 0;
-    float spacewidth = m_font->GetCharWidth(L' ');
-    float numwidth = m_font->GetCharWidth(L'1') + m_font->GetCharWidth(L'.');;
-    int i;
     for (i = 0; m_pos + i < m_words.size(); i++)
     {
       if ((i > 0 && width + getStringWidth(m_words[m_pos + i]) + numwidth > m_listw) || i > 9)
@@ -597,10 +597,6 @@ void CGUIDialogKeyboardGeneric::ChangeWordList(int direct)
   {
     if (m_pos == 0)
       return;
-    float width = 0;
-    float spacewidth = m_font->GetCharWidth(L' ');
-    float numwidth = m_font->GetCharWidth(L'1') + m_font->GetCharWidth(L'.');;
-    int i;
     for (i = 0; i < 9; i++)
     {
       if ((i > 0 && width + getStringWidth(m_words[m_pos - i]) + numwidth > m_listw) || m_pos - i < 0)
@@ -617,6 +613,7 @@ void CGUIDialogKeyboardGeneric::ChangeWordList(int direct)
       hzlist.Insert(hzlist.length(), L' ');
     }
   }
+  hzlist.TrimRight();
   CStdString utf8String;
   g_charsetConverter.wToUTF8(hzlist, utf8String);
   SET_CONTROL_LABEL(CTL_LABEL_HZLIST, utf8String);
