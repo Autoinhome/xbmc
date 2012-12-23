@@ -645,7 +645,7 @@ void CGUIDialogKeyboardGeneric::GetChineseWord()
   http.Get(strUrl, strData);
 
   CRegExp reg;
-  reg.RegComp("\\[\"(.+?)\",\\d+\\]");
+  reg.RegComp("\\[\"(.+?)\",[^\\]]+\\]");
   int pos = 0;
   while ((pos = reg.RegFind(strData.c_str(), pos)) >= 0)
   {
